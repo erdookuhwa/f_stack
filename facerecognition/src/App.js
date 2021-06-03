@@ -26,9 +26,29 @@ class App extends Component {
       imageUrl: '',
       box: {},
       route: 'signin',
-      isSignedIn: false
+      isSignedIn: false,
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: ''
+      }
     }
   }
+
+  loadUser = (data) => {
+    this.setState({ user: {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      entries: data.entries,
+      joined: data.joined
+    }
+    })
+  }
+
 
   // function to get the face location & draw the box around face
   calculateFaceLocation = (data) => {
@@ -83,7 +103,7 @@ class App extends Component {
         { route === 'home' ? 
           <>
             <Logo />
-            <Rank />
+            <Rank name={this.state.user.name} entries={this.state.user.entries} />
             <ImageLinkForm 
               handleInputChange={this.handleInputChange} 
               handleImageSubmit={this.handleImageSubmit} 
@@ -93,9 +113,9 @@ class App extends Component {
           :
           (
             route === 'signin' ? 
-              <SignIn onRouteChange={this.onRouteChange} /> 
+              <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser} /> 
               :
-              <Register onRouteChange={this.onRouteChange} />
+              <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
           )
         }
       </div>

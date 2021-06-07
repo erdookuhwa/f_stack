@@ -19,12 +19,12 @@ class Register extends Component {
         this.setState({signInEmail: e.target.value})
     }
 
-    onPasswordChange = (event) => {
-        this.setState({signInPassword: event.target.value})
+    onPasswordChange = (e) => {
+        this.setState({signInPassword: e.target.value})
     }
 
     onRegisterSubmit = (e) => {
-        fetch('http://localhost:3000/signin', {
+        fetch('http://localhost:3000/register', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -43,7 +43,6 @@ class Register extends Component {
     
 
     render() {
-        const { onRouteChange } = this.props;
         return (
             <article className="br2 ba b--black-10 mv4 w-100 w-50-m w-25-l mw10 shadow-5 center">
                 <main className="pa4 black-80">
@@ -77,7 +76,7 @@ class Register extends Component {
                                 className="b ph3 pv2 input-reset ba b--black bg-transparent hover-bg-light-silver grow pointer f6 dib" 
                                 type="submit" 
                                 value="Register" 
-                                onClick={() => onRouteChange('home')} 
+                                onClick={this.onRegisterSubmit} 
                             />
                         </div>
                     </div>

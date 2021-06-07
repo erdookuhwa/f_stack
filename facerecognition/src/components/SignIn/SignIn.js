@@ -14,11 +14,11 @@ class SignIn extends Component {
         this.setState({signInEmail: e.target.value})
     }
 
-    onPasswordChange = (event) => {
-        this.setState({signInPassword: event.target.value})
+    onPasswordChange = (e) => {
+        this.setState({signInPassword: e.target.value})
     }
 
-    onSignInSubmit = (e) => {
+    onSignInSubmit = () => {
         fetch('http://localhost:3000/signin', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
@@ -27,16 +27,16 @@ class SignIn extends Component {
                 password: this.state.signInPassword
             })
         }).then(response => response.json())
-            .then(data => {
-                if (data.id) {
-                    this.props.loadUser(data);
+            .then(user => {
+                if (user.id) {
+                    this.props.loadUser(user);
                     this.props.onRouteChange('home');
                 }
             })
     }
 
     render() {
-        const { onRouteChange, loadUser } = this.props;
+        const { onRouteChange } = this.props;
         return (
             <article className="br2 ba b--black-10 mv4 w-100 w-50-m w-25-l mw10 shadow-5 center">
                 <main className="pa4 black-80">

@@ -16,14 +16,14 @@ class Register extends Component {
     }
 
     onEmailChange = (e) => {
-        this.setState({signInEmail: e.target.value})
+        this.setState({email: e.target.value})
     }
 
     onPasswordChange = (e) => {
-        this.setState({signInPassword: e.target.value})
+        this.setState({password: e.target.value})
     }
 
-    onRegisterSubmit = (e) => {
+    onRegisterSubmit = () => {
         fetch('http://localhost:3000/register', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
@@ -34,14 +34,13 @@ class Register extends Component {
             })
         }).then(response => response.json())
             .then(user => {
-                if (user) {
+                if (user.id) {
                     this.props.loadUser(user);
                     this.props.onRouteChange('home');
                 }
             })
     }
     
-
     render() {
         return (
             <article className="br2 ba b--black-10 mv4 w-100 w-50-m w-25-l mw10 shadow-5 center">

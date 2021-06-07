@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 // import Particles from 'react-particles-js';
 import ParticlesBg from 'particles-bg';
-import Clarifai from 'clarifai';
 import Navigation from './components/Navigation/Navigation';
 import SignIn from './components/SignIn/SignIn';
 import Register from './components/Register/Register';
@@ -12,28 +11,25 @@ import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 
 import './App.css';
 
-// My clarifai's API key
-const app = new Clarifai.App({
-  apiKey: '0e3bef19a40045b5ad2cf8074b70b620'
-});
+const initialState = {
+  input: '',
+  imageUrl: '',
+  box: {},
+  route: 'signin',
+  isSignedIn: false,
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: ''
+  }
+}
 
 class App extends Component {
   constructor() {
     super();
-    this.state = {
-      input: '',
-      imageUrl: '',
-      box: {},
-      route: 'signin',
-      isSignedIn: false,
-      user: {
-        id: '',
-        name: '',
-        email: '',
-        entries: 0,
-        joined: ''
-      }
-    }
+    this.state = initialState;
   }
 
   loadUser = (data) => {
@@ -46,7 +42,6 @@ class App extends Component {
     }
     })
   }
-
 
   // function to get the face location & draw the box around face
   calculateFaceLocation = (data) => {
@@ -63,7 +58,7 @@ class App extends Component {
   }
 
   displayFaceBox = (box) => {
-    this.setState({box})
+    this.setState({box: box});
   }
 
   // function to keep track of changes in the input
@@ -74,8 +69,14 @@ class App extends Component {
   // this fxn will handle submitting the input for image detection
   handleImageSubmit = () => {
     this.setState({imageUrl: this.state.input});
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, 
-      this.state.input)
+      fetch('http://localhost:/3000/imageurl', {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.parse({
+          input: this.state.input
+        })
+      })
+      .then(response => response.json() )
       .then( response => {
         if (response) {
           fetch('http://localhost:3000/image', {
@@ -89,15 +90,16 @@ class App extends Component {
           .then( count => {
             this.setState( Object.assign(this.state.user, { entries: count }) )
           })
+          .catch(err => console.log(err))
         }
         this.displayFaceBox ( this.calculateFaceLocation(response) )
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err));
   }
 
   onRouteChange = (route) => {
     if (route === 'signout') {
-      this.setState({ isSignedIn: false })
+      this.setState(initialState);
     } else if (route === 'home') {
       this.setState({ isSignedIn: true })
     }
@@ -132,7 +134,6 @@ class App extends Component {
       </div>
     );
   }
-
 }
 
 export default App;

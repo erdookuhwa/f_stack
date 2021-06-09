@@ -27,6 +27,7 @@ class Register extends Component {
         fetch('https://backface.herokuapp.com/register', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
+            mode: 'no-cors',
             body: JSON.stringify({
                 name: this.state.name,
                 email: this.state.email,

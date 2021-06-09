@@ -22,6 +22,7 @@ class SignIn extends Component {
         fetch('https://backface.herokuapp.com/signin', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
+            mode: 'no-cors',
             body: JSON.stringify({
                 email: this.state.signInEmail,
                 password: this.state.signInPassword

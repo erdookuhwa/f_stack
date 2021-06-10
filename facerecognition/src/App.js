@@ -72,7 +72,6 @@ class App extends Component {
       fetch('https://backface.herokuapp.com/imageurl', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
-        mode: 'no-cors',
         body: JSON.parse({
           input: this.state.input
         })
@@ -83,7 +82,6 @@ class App extends Component {
           fetch('https://backface.herokuapp.com/image', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
-            mode: 'no-cors',
             body: JSON.stringify({
               id: this.state.user.id
             })

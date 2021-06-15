@@ -69,9 +69,9 @@ class App extends Component {
   // this fxn will handle submitting the input for image detection
   handleImageSubmit = () => {
     this.setState({imageUrl: this.state.input});
-      fetch('https://backface.herokuapp.com/imageurl', {
-        method: 'post',
-        headers: {'Content-Type': 'application/json'},
+      fetch("https://backface.herokuapp.com/imageurl", {
+        method: "post",
+        headers: {"Content-Type": "application/json"},
         body: JSON.parse({
           input: this.state.input
         })
@@ -79,9 +79,9 @@ class App extends Component {
       .then(response => response.json() )
       .then( response => {
         if (response) {
-          fetch('https://backface.herokuapp.com/image', {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
+          fetch("https://backface.herokuapp.com/image", {
+            method: "post",
+            headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
               id: this.state.user.id
             })

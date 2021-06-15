@@ -24,9 +24,9 @@ class Register extends Component {
     }
 
     onRegisterSubmit = () => {
-        fetch('https://backface.herokuapp.com/register', {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
+        fetch("https://backface.herokuapp.com/register", {
+            method: "post",
+            headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
                 name: this.state.name,
                 email: this.state.email,
